@@ -10,7 +10,10 @@ import ParallaxBackground from '../components/ParallaxBackground';
 import TravelGallery from '../components/TravelGallery';
 import SpecialOffers from '../components/SpecialOffers';
 import TravelTips from '../components/TravelTips';
+import AgencyTripsGallery from '../components/AgencyTripsGallery';
 import WhatsAppButton from '../components/WhatsAppButton';
+
+
 const heroImages = [{
   url: 'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1728&q=80',
   title: 'Descubra Novos Horizontes',
@@ -96,12 +99,22 @@ const Home = () => {
           <ImageGallery images={galleryImages} />
         </div>
       </section>
+      
       <SpecialOffers />
       <TravelGallery />
+      
       <FeaturedDestinations destinations={featuredDestinations} />
       <TravelTips />
-      <TestimonialsSection />
+      <AgencyTripsGallery />
+     
+      
+
+
+
       <NewsletterSection />
+      <TestimonialsSection />
+      
+
       <section className="py-20 bg-gradient-to-r from-teal-600 to-teal-800 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold mb-6">

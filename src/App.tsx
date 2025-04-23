@@ -7,6 +7,9 @@ import Travels from './pages/Travels';
 import TravelDetail from './pages/TravelDetail';
 import Contact from './pages/Contact';
 import { travelData } from './data/travelData';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 export function App() {
   return <BrowserRouter>
       <div className="flex flex-col min-h-screen bg-gray-50">
