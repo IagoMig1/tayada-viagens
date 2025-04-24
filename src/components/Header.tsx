@@ -45,21 +45,20 @@ const Header = () => {
       {/* Main Navigation */}
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
-          <Link to="/" className="flex items-center space-x-2 group">
-            <div
-              size={32}
-              className={`transition-all duration-300 ${
-                isScrolled || !isHomePage ? 'text-teal-600' : 'text-white'
-              } group-hover:rotate-12`}
-            />
-            <span
-              className={`text-2xl font-bold transition-colors duration-300 ${
-                isScrolled || !isHomePage ? 'text-gray-800' : 'text-white'
-              }`}
-            >
-              Tayada Viagens
-            </span>
-          </Link>
+        <Link to="/" className="flex items-center space-x-2 group">
+  <div
+    size={32}
+    className={`transition-all duration-300 ${
+      isScrolled || !isHomePage ? 'text-teal-600' : 'text-white'
+    } group-hover:rotate-12`}
+  />
+  <img
+    src="./logo horizontal.png"
+    alt="Tayada Viagens"
+    className="h-12 w-18 transition-all duration-300"
+  />
+</Link>
+
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
