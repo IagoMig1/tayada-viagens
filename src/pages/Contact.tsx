@@ -1,8 +1,16 @@
-import React, { lazy } from 'react';
+import React from 'react';
 import { PhoneIcon, MailIcon, MapPinIcon, ClockIcon } from 'lucide-react';
 import ContactForm from '../components/ContactForm';
+import { motion } from 'framer-motion';  // Importando o motion do framer-motion
+
 const Contact = () => {
-  return <div className="bg-gray-50 w-full">
+  return (
+    <motion.div
+      className="bg-gray-50 w-full"
+      initial={{ opacity: 0 }}       // Início da animação (opacidade 0)
+      animate={{ opacity: 1 }}       // Final da animação (opacidade 1)
+      transition={{ duration: 0.5 }}   // Duração da animação
+    >
       <div className="container mx-auto px-4 py-12">
         <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
           Entre em Contato
@@ -68,13 +76,15 @@ const Contact = () => {
               </h2>
               <div className="aspect-video bg-gray-200 rounded-md overflow-hidden">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.0976521482147!2d-46.65567702392011!3d-23.563169361669757!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%20-%20Bela%20Vista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1682890287285!5m2!1spt-BR!2sbr" width="100%" height="100%" style={{
-                border: 0
-              }} allowFullScreen={false} loading="lazy" title="Mapa da localização"></iframe>
+                  border: 0
+                }} allowFullScreen={false} loading="lazy" title="Mapa da localização"></iframe>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>;
+    </motion.div>
+  );
 };
+
 export default Contact;

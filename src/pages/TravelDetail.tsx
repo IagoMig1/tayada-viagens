@@ -2,43 +2,83 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CalendarIcon, MapPinIcon, UsersIcon, UtensilsIcon, PlaneIcon, HomeIcon, CheckIcon, XIcon, PhoneIcon } from 'lucide-react';
 import { Travel } from '../data/travelData';
+import { motion } from 'framer-motion'; // Importando o motion
+
 interface TravelDetailProps {
   travel: Travel;
 }
+
 const TravelDetail: React.FC<TravelDetailProps> = ({
   travel
 }) => {
-  return <div className="bg-gray-50 w-full">
+  return (
+    <div className="bg-gray-50 w-full">
       {/* Hero Image */}
-      <div className="relative h-80 md:h-96 w-full">
+      <motion.div 
+        className="relative h-80 md:h-96 w-full"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
         <img src={travel.image} alt={travel.title} className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black bg-opacity-40"></div>
         <div className="absolute inset-0 flex items-center">
           <div className="container mx-auto px-4">
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+            <motion.h1 
+              className="text-3xl md:text-4xl font-bold text-white mb-2"
+              initial={{ y: -50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+            >
               {travel.title}
-            </h1>
-            <div className="flex items-center text-white">
+            </motion.h1>
+            <motion.div 
+              className="flex items-center text-white"
+              initial={{ y: -30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
               <MapPinIcon size={18} className="mr-1" />
               <span>{travel.location}</span>
-            </div>
+            </motion.div>
           </div>
         </div>
-      </div>
+      </motion.div>
+
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Main Content */}
-          <div className="lg:w-2/3">
-            <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+          <motion.div 
+            className="lg:w-2/3"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.3 }}
+          >
+            <motion.div 
+              className="bg-white rounded-lg shadow-md p-6 mb-8"
+              initial={{ x: -100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+            >
               <h2 className="text-2xl font-bold text-gray-800 mb-4">
                 Sobre o Destino
               </h2>
               <p className="text-gray-700 mb-6">{travel.description}</p>
-              {travel.longDescription && <div className="text-gray-700 space-y-4">
-                  {travel.longDescription.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
-                </div>}
-            </div>
-            <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+              {travel.longDescription && (
+                <div className="text-gray-700 space-y-4">
+                  {travel.longDescription.map((paragraph, index) => (
+                    <p key={index}>{paragraph}</p>
+                  ))}
+                </div>
+              )}
+            </motion.div>
+
+            <motion.div 
+              className="bg-white rounded-lg shadow-md p-6 mb-8"
+              initial={{ x: 100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+            >
               <h2 className="text-2xl font-bold text-gray-800 mb-4">
                 O Que Está Incluído
               </h2>
@@ -49,10 +89,12 @@ const TravelDetail: React.FC<TravelDetailProps> = ({
                     Transporte
                   </h3>
                   <ul className="space-y-2">
-                    {travel.includes?.transport.map((item, index) => <li key={index} className="flex items-start">
+                    {travel.includes?.transport.map((item, index) => (
+                      <li key={index} className="flex items-start">
                         <CheckIcon size={18} className="text-green-500 mr-2 mt-0.5 flex-shrink-0" />
                         <span className="text-gray-700">{item}</span>
-                      </li>)}
+                      </li>
+                    ))}
                   </ul>
                 </div>
                 <div>
@@ -61,10 +103,12 @@ const TravelDetail: React.FC<TravelDetailProps> = ({
                     Hospedagem
                   </h3>
                   <ul className="space-y-2">
-                    {travel.includes?.accommodation.map((item, index) => <li key={index} className="flex items-start">
+                    {travel.includes?.accommodation.map((item, index) => (
+                      <li key={index} className="flex items-start">
                         <CheckIcon size={18} className="text-green-500 mr-2 mt-0.5 flex-shrink-0" />
                         <span className="text-gray-700">{item}</span>
-                      </li>)}
+                      </li>
+                    ))}
                   </ul>
                 </div>
                 <div>
@@ -73,10 +117,12 @@ const TravelDetail: React.FC<TravelDetailProps> = ({
                     Alimentação
                   </h3>
                   <ul className="space-y-2">
-                    {travel.includes?.meals.map((item, index) => <li key={index} className="flex items-start">
+                    {travel.includes?.meals.map((item, index) => (
+                      <li key={index} className="flex items-start">
                         <CheckIcon size={18} className="text-green-500 mr-2 mt-0.5 flex-shrink-0" />
                         <span className="text-gray-700">{item}</span>
-                      </li>)}
+                      </li>
+                    ))}
                   </ul>
                 </div>
                 <div>
@@ -85,28 +131,46 @@ const TravelDetail: React.FC<TravelDetailProps> = ({
                     Atividades
                   </h3>
                   <ul className="space-y-2">
-                    {travel.includes?.activities.map((item, index) => <li key={index} className="flex items-start">
+                    {travel.includes?.activities.map((item, index) => (
+                      <li key={index} className="flex items-start">
                         <CheckIcon size={18} className="text-green-500 mr-2 mt-0.5 flex-shrink-0" />
                         <span className="text-gray-700">{item}</span>
-                      </li>)}
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
-            </div>
-            {travel.notIncluded && travel.notIncluded.length > 0 && <div className="bg-white rounded-lg shadow-md p-6">
+            </motion.div>
+
+            {travel.notIncluded && travel.notIncluded.length > 0 && (
+              <motion.div
+                className="bg-white rounded-lg shadow-md p-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">
                   O Que Não Está Incluído
                 </h2>
                 <ul className="space-y-2">
-                  {travel.notIncluded.map((item, index) => <li key={index} className="flex items-start">
+                  {travel.notIncluded.map((item, index) => (
+                    <li key={index} className="flex items-start">
                       <XIcon size={18} className="text-red-500 mr-2 mt-0.5 flex-shrink-0" />
                       <span className="text-gray-700">{item}</span>
-                    </li>)}
+                    </li>
+                  ))}
                 </ul>
-              </div>}
-          </div>
+              </motion.div>
+            )}
+          </motion.div>
+
           {/* Sidebar */}
-          <div className="lg:w-1/3">
+          <motion.div 
+            className="lg:w-1/3"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.5 }}
+          >
             <div className="bg-white rounded-lg shadow-md p-6 sticky top-4">
               <div className="mb-6">
                 <div className="text-3xl font-bold text-gray-800 mb-1">
@@ -145,17 +209,25 @@ const TravelDetail: React.FC<TravelDetailProps> = ({
                   </div>
                 </div>
               </div>
-              <Link to="/contato" className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-md text-center transition-colors mb-4">
+              <Link 
+                to="/contato" 
+                className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-md text-center transition-colors mb-4"
+              >
                 Reservar Agora
               </Link>
-              <a href="tel:1199999999" className="flex items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 font-medium py-3 px-4 rounded-md transition-colors">
+              <a 
+                href="tel:1199999999" 
+                className="flex items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 font-medium py-3 px-4 rounded-md transition-colors"
+              >
                 <PhoneIcon size={18} className="mr-2" />
                 (11) 9999-9999
               </a>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default TravelDetail;
