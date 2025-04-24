@@ -39,35 +39,32 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <MapPinIcon size={20} className="flex-shrink-0 mt-1" />
                 <p className="text-gray-300">
-                  Av. Paulista, 1000 - São Paulo, SP
+                Av. Francisco Alves Moreira, 355 - Vila Santos, Caçapava - SP, 12280-011
                 </p>
               </div>
               <div className="flex items-center space-x-3">
                 <PhoneIcon size={20} />
-                <p className="text-gray-300">(11) 9999-9999</p>
+                <p className="text-gray-300">12 3653-7242</p>
               </div>
               <div className="flex items-center space-x-3">
                 <MailIcon size={20} />
-                <p className="text-gray-300">contato@viagensbrasil.com</p>
+                <p className="text-gray-300">atendimento@tayadaviagens.com</p>
               </div>
             </div>
           </div>
         </div>
         <div className="mt-8 pt-6 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            &copy; {new Date().getFullYear()} Viagens Brasil. Todos os direitos
-            reservados.
+            &copy; {new Date().getFullYear()} Tayada Viagens - Todos os direitos reservados.
           </p>
           <div className="flex space-x-4 mt-4 md:mt-0">
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+            <a href="https://www.facebook.com/tayadaviagens" className="text-gray-400 hover:text-white transition-colors">
               <FacebookIcon size={20} />
             </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+            <a href="https://www.instagram.com/tayada_viagens" className="text-gray-400 hover:text-white transition-colors">
               <InstagramIcon size={20} />
             </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
-              <TwitterIcon size={20} />
-            </a>
+
           </div>
         </div>
       </div>
