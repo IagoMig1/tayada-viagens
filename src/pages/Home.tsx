@@ -101,7 +101,7 @@ const Home = () => {
               </h1>
               <p className="text-xl md:text-2xl text-white/90 mb-8 animate-fadeInUp animation-delay-200">
                 {heroImages[currentSlide].subtitle}
-              </p>
+              </p> 
               <div className="flex flex-wrap gap-4 animate-fadeInUp animation-delay-400">
                 <Link to="/destinos" className="px-8 py-4 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg" aria-label="Explorar destinos">
                   Explorar Destinos

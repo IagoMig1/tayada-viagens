@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { MenuIcon, XIcon, PhoneIcon } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,14 +18,28 @@ const Header = () => {
 
   const isHomePage = location.pathname === '/';
 
+  const fadeIn = {
+    hidden: { opacity: 0, y: -20 },
+    visible: (i = 1) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.2, duration: 0.6 },
+    }),
+  };
+
   return (
-    <header
+    <motion.header
+      initial="hidden"
+      animate="visible"
+      variants={fadeIn}
       className={`fixed w-full z-50 transition-all duration-300 ${
         isScrolled || !isHomePage ? 'bg-white shadow-lg' : 'bg-transparent'
       }`}
     >
       {/* Top Bar */}
-      <div
+      <motion.div
+        custom={1}
+        variants={fadeIn}
         className={`w-full py-1 transition-all duration-300 ${
           isScrolled || !isHomePage ? 'bg-teal-600' : 'bg-black/20'
         }`}
@@ -32,36 +47,39 @@ const Header = () => {
         <div className="container mx-auto px-4">
           <div className="flex justify-end items-center text-white text-sm">
             <a
-              href="tel:+551199999999"
+              href="tel:+551236537242"
               className="flex items-center hover:text-teal-100 transition-colors"
             >
               <PhoneIcon size={14} className="mr-1" />
-              <span>(11) 99999-9999</span>
+              <span>(12) 3653-7242</span>
             </a>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Main Navigation */}
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
-        <Link to="/" className="flex items-center space-x-2 group">
-  <div
-    size={32}
-    className={`transition-all duration-300 ${
-      isScrolled || !isHomePage ? 'text-teal-600' : 'text-white'
-    } group-hover:rotate-12`}
-  />
-  <img
-    src="./logo horizontal.png"
-    alt="Tayada Viagens"
-    className="h-12 w-18 transition-all duration-300"
-  />
-</Link>
-
+          <motion.div custom={2} variants={fadeIn}>
+            <Link to="/" className="flex items-center space-x-2 group">
+              <img
+                src={
+                  isScrolled || !isHomePage
+                    ? '/logo horizontal.png'
+                    : '/logo horizontal - mono w.png'
+                }
+                alt="Tayada Viagens"
+                className="h-14 w-auto transition-all duration-300 drop-shadow-md group-hover:scale-105"
+              />
+            </Link>
+          </motion.div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <motion.nav
+            custom={3}
+            variants={fadeIn}
+            className="hidden md:flex items-center space-x-8"
+          >
             {[
               { path: '/', label: 'Início' },
               { path: '/destinos', label: 'Destinos' },
@@ -90,17 +108,19 @@ const Header = () => {
             >
               Reservar Agora
             </Link>
-          </nav>
+          </motion.nav>
 
           {/* Mobile Menu Button */}
-          <button
+          <motion.button
+            custom={4}
+            variants={fadeIn}
             className={`md:hidden focus:outline-none transition-colors duration-300 ${
               isScrolled || !isHomePage ? 'text-gray-800' : 'text-white'
             }`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <XIcon size={24} /> : <MenuIcon size={24} />}
-          </button>
+          </motion.button>
         </div>
 
         {/* Mobile Navigation */}
@@ -135,7 +155,7 @@ const Header = () => {
           </nav>
         )}
       </div>
-    </header>
+    </motion.header>
   );
 };
 
