@@ -71,7 +71,7 @@ const Footer = () => {
 
         {/* Link para o Login Administrativo */}
         <div className="mt-4 text-center">
-          <Link to="/login" className="text-gray-500 text-sm hover:text-white transition-colors">
+          <Link to="/Add-travel" className="text-gray-500 text-sm hover:text-white transition-colors">
             Login Administrativo
           </Link>
         </div>
