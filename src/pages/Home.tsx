@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPinIcon, CalendarIcon, CreditCardIcon, ChevronRightIcon, ChevronLeftIcon } from 'lucide-react';
 import FeaturedDestinations from '../components/FeaturedDestinations';
-import { travelData } from '../data/travelData';
 import TestimonialsSection from '../components/TestimonialsSection';
 import NewsletterSection from '../components/NewsletterSection';
 import ImageGallery from '../components/ImageGallery';
@@ -13,6 +12,7 @@ import TravelTips from '../components/TravelTips';
 import AgencyTripsGallery from '../components/AgencyTripsGallery';
 import WhatsAppButton from '../components/WhatsAppButton';
 import { motion } from 'framer-motion';
+import { getTravelData } from '../lib/supabase'; 
 
 const heroImages = [
   {
@@ -21,7 +21,7 @@ const heroImages = [
     subtitle: 'Explore destinos incríveis com a Tayada Viagens'
   },
   {
-    url: 'https://images.unsplash.com/photo-1696450724328-c075ecff6f50?q=80&w=1911&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    url: 'https://images.unsplash.com/photo-1696450724328-c075ecff6f50?q=80&w=1911&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     title: 'Experiências Únicas',
     subtitle: 'Momentos inesquecíveis em cada viagem'
   },
@@ -34,7 +34,7 @@ const heroImages = [
 
 const galleryImages = [
   {
-    url: 'https://images.unsplash.com/photo-1564750576234-75de3cc54053?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    url: 'https://images.unsplash.com/photo-1564750576234-75de3cc54053?q=80&w=2069&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     caption: 'Amazônia Brasileira'
   },
   {
@@ -46,7 +46,7 @@ const galleryImages = [
     caption: 'Fernando de Noronha'
   },
   {
-    url: 'https://images.unsplash.com/photo-1667049663930-f6d42755f76b?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    url: 'https://images.unsplash.com/photo-1667049663930-f6d42755f76b?q=80&w=1935&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     caption: 'Gramado'
   }
 ];
@@ -54,6 +54,22 @@ const galleryImages = [
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [travelData, setTravelData] = useState<any[]>([]); // Estado para armazenar as viagens do Supabase
+
+  useEffect(() => {
+    const fetchTravelData = async () => {
+      try {
+        const data = await getTravelData(); // Função que busca os dados do Supabase
+        setTravelData(data);
+        setIsDataLoaded(true);
+      } catch (error) {
+        console.error('Erro ao carregar os dados de viagem:', error);
+      }
+    };
+
+    fetchTravelData();
+  }, []);
+
   const featuredDestinations = travelData.slice(0, 6);
 
   useEffect(() => {
@@ -62,12 +78,6 @@ const Home = () => {
     }, 5000);
     return () => clearInterval(timer);
   }, []);
-
-  useEffect(() => {
-    if (travelData.length > 0) {
-      setIsDataLoaded(true);
-    }
-  }, [travelData]);
 
   const nextSlide = () => {
     setCurrentSlide(prev => (prev + 1) % heroImages.length);
@@ -160,12 +170,12 @@ const Home = () => {
         {/* Sections */}
         {isDataLoaded ? (
           <>
-            <SpecialOffers />
-            <TravelGallery />
             <FeaturedDestinations destinations={featuredDestinations} />
+           
+            
             <TravelTips />
             <AgencyTripsGallery />
-            <NewsletterSection />
+           
             <TestimonialsSection />
           </>
         ) : (

@@ -1,229 +1,146 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { CalendarIcon, MapPinIcon, UsersIcon, UtensilsIcon, PlaneIcon, HomeIcon, CheckIcon, XIcon, PhoneIcon } from 'lucide-react';
-import { Travel } from '../data/travelData';
-import { motion } from 'framer-motion'; // Importando o motion
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { createClient } from '@supabase/supabase-js';
+import { MapPinIcon, CheckIcon } from 'lucide-react';
 
-interface TravelDetailProps {
-  travel: Travel;
-}
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL!,
+  import.meta.env.VITE_SUPABASE_ANON_KEY!
+);
 
-const TravelDetail: React.FC<TravelDetailProps> = ({
-  travel
-}) => {
+const TravelDetail = () => {
+  const { id } = useParams<{ id: string }>(); // Pega o ID da URL
+  const [travel, setTravel] = useState<any | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTravel = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('travels') // Nome correto da tabela
+        .select('*')
+        .eq('id', id)
+        .single(); // Garante que só traga um item
+
+      if (error) {
+        console.error('Erro ao buscar viagem:', error.message);
+      } else {
+        setTravel(data);
+      }
+      setLoading(false);
+    };
+
+    if (id) fetchTravel(); // Se houver id, busca a viagem
+  }, [id]);
+
+  if (loading) {
+    return <div className="text-center py-20 text-gray-600">Carregando detalhes da viagem...</div>;
+  }
+
+  if (!travel) {
+    return <div className="text-center py-20 text-red-600">Viagem não encontrada.</div>;
+  }
+
+  // Formatando a data da viagem no padrão pt-BR
+  const formattedDate = new Date(travel.date).toLocaleDateString('pt-BR');
+
+  // Mensagem para WhatsApp
+  const whatsappMessage = `Olá! Gostaria de saber mais detalhes sobre a viagem "${travel.title}" que está marcada para ${formattedDate}.`;
+
   return (
     <div className="bg-gray-50 w-full">
+
       {/* Hero Image */}
-      <motion.div 
-        className="relative h-80 md:h-96 w-full"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        <img src={travel.image} alt={travel.title} className="w-full h-full object-cover" />
+      <div className="relative w-full overflow-hidden">
+        <img src={travel.image} alt={travel.title} className="w-full h-[500px] object-cover object-center transition-all duration-300 transform hover:scale-110" />
         <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-        <div className="absolute inset-0 flex items-center">
-          <div className="container mx-auto px-4">
-            <motion.h1 
-              className="text-3xl md:text-4xl font-bold text-white mb-2"
-              initial={{ y: -50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8 }}
-            >
-              {travel.title}
-            </motion.h1>
-            <motion.div 
-              className="flex items-center text-white"
-              initial={{ y: -30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <MapPinIcon size={18} className="mr-1" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center text-white px-6">
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">{travel.title}</h1>
+            <div className="flex justify-center items-center text-lg">
+              <MapPinIcon size={18} className="mr-2 text-teal-500" />
               <span>{travel.location}</span>
-            </motion.div>
+            </div>
           </div>
         </div>
-      </motion.div>
+      </div>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Main Content */}
-          <motion.div 
-            className="lg:w-2/3"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.3 }}
-          >
-            <motion.div 
-              className="bg-white rounded-lg shadow-md p-6 mb-8"
-              initial={{ x: -100, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                Sobre o Destino
-              </h2>
-              <p className="text-gray-700 mb-6">{travel.description}</p>
-              {travel.longDescription && (
-                <div className="text-gray-700 space-y-4">
-                  {travel.longDescription.map((paragraph, index) => (
-                    <p key={index}>{paragraph}</p>
-                  ))}
-                </div>
-              )}
-            </motion.div>
+      {/* Container Principal */}
+      <div className="container mx-auto p-8 md:px-16 bg-white shadow-xl rounded-xl mt-8">
 
-            <motion.div 
-              className="bg-white rounded-lg shadow-md p-6 mb-8"
-              initial={{ x: 100, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                O Que Está Incluído
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="flex items-center text-lg font-medium text-gray-800 mb-3">
-                    <PlaneIcon size={20} className="mr-2 text-blue-600" />
-                    Transporte
-                  </h3>
-                  <ul className="space-y-2">
-                    {travel.includes?.transport.map((item, index) => (
-                      <li key={index} className="flex items-start">
-                        <CheckIcon size={18} className="text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-700">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="flex items-center text-lg font-medium text-gray-800 mb-3">
-                    <HomeIcon size={20} className="mr-2 text-blue-600" />
-                    Hospedagem
-                  </h3>
-                  <ul className="space-y-2">
-                    {travel.includes?.accommodation.map((item, index) => (
-                      <li key={index} className="flex items-start">
-                        <CheckIcon size={18} className="text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-700">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="flex items-center text-lg font-medium text-gray-800 mb-3">
-                    <UtensilsIcon size={20} className="mr-2 text-blue-600" />
-                    Alimentação
-                  </h3>
-                  <ul className="space-y-2">
-                    {travel.includes?.meals.map((item, index) => (
-                      <li key={index} className="flex items-start">
-                        <CheckIcon size={18} className="text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-700">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="flex items-center text-lg font-medium text-gray-800 mb-3">
-                    <UsersIcon size={20} className="mr-2 text-blue-600" />
-                    Atividades
-                  </h3>
-                  <ul className="space-y-2">
-                    {travel.includes?.activities.map((item, index) => (
-                      <li key={index} className="flex items-start">
-                        <CheckIcon size={18} className="text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-700">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </motion.div>
+        {/* Informações principais da viagem */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-            {travel.notIncluded && travel.notIncluded.length > 0 && (
-              <motion.div
-                className="bg-white rounded-lg shadow-md p-6"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                  O Que Não Está Incluído
-                </h2>
-                <ul className="space-y-2">
-                  {travel.notIncluded.map((item, index) => (
-                    <li key={index} className="flex items-start">
-                      <XIcon size={18} className="text-red-500 mr-2 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-700">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            )}
-          </motion.div>
-
-          {/* Sidebar */}
-          <motion.div 
-            className="lg:w-1/3"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.5 }}
-          >
-            <div className="bg-white rounded-lg shadow-md p-6 sticky top-4">
-              <div className="mb-6">
-                <div className="text-3xl font-bold text-gray-800 mb-1">
-                  R$ {travel.price.toLocaleString('pt-BR')}
-                </div>
-                <div className="text-gray-500 text-sm">por pessoa</div>
-              </div>
-              <div className="space-y-4 mb-6">
-                <div className="flex items-start">
-                  <CalendarIcon size={20} className="text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <div className="font-medium text-gray-800">Duração</div>
-                    <div className="text-gray-600">{travel.duration}</div>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <UsersIcon size={20} className="text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <div className="font-medium text-gray-800">
-                      Tamanho do Grupo
-                    </div>
-                    <div className="text-gray-600">
-                      Máximo de {travel.groupSize || 15} pessoas
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <MapPinIcon size={20} className="text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <div className="font-medium text-gray-800">
-                      Local de Partida
-                    </div>
-                    <div className="text-gray-600">
-                      {travel.departureLocation || 'São Paulo'}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <Link 
-                to="/contato" 
-                className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-md text-center transition-colors mb-4"
-              >
-                Reservar Agora
-              </Link>
-              <a 
-                href="tel:1199999999" 
-                className="flex items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 font-medium py-3 px-4 rounded-md transition-colors"
-              >
-                <PhoneIcon size={18} className="mr-2" />
-                (11) 9999-9999
-              </a>
+          {/* Preço, data e duração */}
+          <div className="space-y-6">
+            <div className="text-lg font-semibold text-gray-800">
+              <h3>Preço</h3>
+              <p className="text-teal-500 text-2xl font-bold">
+                R$ {travel.price.toLocaleString('pt-BR')}
+              </p>
             </div>
-          </motion.div>
+
+            <div className="text-lg font-semibold text-gray-800">
+              <h3>Data da Viagem</h3>
+              <p>{formattedDate}</p>
+            </div>
+
+            <div className="text-lg font-semibold text-gray-800">
+              <h3>Duração</h3>
+              <p>{travel.duration}</p>
+            </div>
+          </div>
+
+          {/* Tamanho do grupo */}
+          <div className="space-y-6">
+            <div className="text-lg font-semibold text-gray-800">
+              <h3>Tamanho do Grupo</h3>
+              <p>{travel.group_size} pessoas</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Descrição longa da viagem */}
+        <div className="mt-12">
+          <h2 className="text-2xl font-semibold text-gray-800">Detalhes da Viagem</h2>
+          <p className="text-gray-600 mt-4">{travel.long_description.join(' ')}</p>
+        </div>
+
+        {/* O que está incluso */}
+        <div className="mt-12">
+          <h2 className="text-2xl font-semibold text-gray-800">O que está incluso</h2>
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {travel.includes && travel.includes.map((item: string, index: number) => (
+              <div key={index} className="flex items-center text-gray-600">
+                <CheckIcon size={20} className="mr-2 text-teal-500" />
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* O que não está incluso */}
+        <div className="mt-12">
+          <h2 className="text-2xl font-semibold text-gray-800">O que não está incluso</h2>
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {travel.not_included && travel.not_included.map((item: string, index: number) => (
+              <div key={index} className="flex items-center text-gray-600">
+                <CheckIcon size={20} className="mr-2 text-teal-500" />
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Botão de WhatsApp */}
+        <div className="mt-12 flex justify-center">
+          <a
+            href={`https://wa.me/551236537242?text=${encodeURIComponent(whatsappMessage)}`}
+            target="_blank"
+            className="bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 transition-all flex items-center space-x-3"
+          >
+            <span>Enviar mensagem no WhatsApp</span>
+          </a>
         </div>
       </div>
     </div>

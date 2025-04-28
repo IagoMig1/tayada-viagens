@@ -1,27 +1,57 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TravelCard from '../components/TravelCard';
-import { travelData } from '../data/travelData';
 import { SearchIcon, FilterIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { createClient } from '@supabase/supabase-js';
+import { Travel } from '../data/travelData';
+
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL!,
+  import.meta.env.VITE_SUPABASE_ANON_KEY!
+);
 
 const Travels = () => {
+  const [travels, setTravels] = useState<Travel[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [priceFilter, setPriceFilter] = useState('');
   const [durationFilter, setDurationFilter] = useState('');
-  const filteredTravels = travelData.filter(travel => {
-    // Search filter
-    const matchesSearch = travel.title.toLowerCase().includes(searchTerm.toLowerCase()) || travel.location.toLowerCase().includes(searchTerm.toLowerCase()) || travel.description.toLowerCase().includes(searchTerm.toLowerCase());
-    // Price filter
+
+  useEffect(() => {
+    const fetchTravels = async () => {
+      setLoading(true);
+      const { data, error } = await supabase.from('travels').select('*');
+      if (error) {
+        console.error('Erro ao buscar viagens:', error.message);
+      } else {
+        setTravels(data as Travel[]);
+      }
+      setLoading(false);
+    };
+
+    fetchTravels();
+  }, []);
+
+  const filteredTravels = travels.filter((travel) => {
+    // Verifica se a busca corresponde ao termo de pesquisa
+    const matchesSearch =
+      travel.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      travel.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      travel.description.toLowerCase().includes(searchTerm.toLowerCase());
+
     let matchesPrice = true;
+    // Filtro de preço
     if (priceFilter) {
       const [min, max] = priceFilter.split('-').map(Number);
       matchesPrice = travel.price >= min && (max ? travel.price <= max : true);
     }
-    // Duration filter
+
     let matchesDuration = true;
+    // Filtro de duração
     if (durationFilter) {
       matchesDuration = travel.duration.includes(durationFilter);
     }
+
     return matchesSearch && matchesPrice && matchesDuration;
   });
 
@@ -31,8 +61,8 @@ const Travels = () => {
         <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
           Nossos Destinos
         </h1>
-        
-        {/* Filters */}
+
+        {/* Filtros */}
         <motion.div
           className="bg-white p-6 rounded-lg shadow-md mb-8"
           initial={{ opacity: 0 }}
@@ -45,25 +75,26 @@ const Travels = () => {
                 Buscar
               </label>
               <div className="relative">
-                <input 
-                  type="text" 
-                  id="search" 
-                  placeholder="Buscar por destino, local ou descrição..." 
-                  value={searchTerm} 
-                  onChange={e => setSearchTerm(e.target.value)} 
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                <input
+                  type="text"
+                  id="search"
+                  placeholder="Buscar por destino, local ou descrição..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <SearchIcon size={20} className="absolute left-3 top-2.5 text-gray-400" />
               </div>
             </div>
+
             <div className="w-full md:w-48">
               <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
                 Preço
               </label>
-              <select 
-                id="price" 
-                value={priceFilter} 
-                onChange={e => setPriceFilter(e.target.value)} 
+              <select
+                id="price"
+                value={priceFilter}
+                onChange={(e) => setPriceFilter(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Todos os preços</option>
@@ -73,14 +104,15 @@ const Travels = () => {
                 <option value="10000">Acima de R$ 10.000</option>
               </select>
             </div>
+
             <div className="w-full md:w-48">
               <label htmlFor="duration" className="block text-sm font-medium text-gray-700 mb-1">
                 Duração
               </label>
-              <select 
-                id="duration" 
-                value={durationFilter} 
-                onChange={e => setDurationFilter(e.target.value)} 
+              <select
+                id="duration"
+                value={durationFilter}
+                onChange={(e) => setDurationFilter(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Qualquer duração</option>
@@ -94,20 +126,22 @@ const Travels = () => {
           </div>
         </motion.div>
 
-        {/* Results */}
-        {filteredTravels.length > 0 ? (
-          <motion.div 
+        {/* Resultados */}
+        {loading ? (
+          <div className="text-center py-12 text-gray-500">Carregando viagens...</div>
+        ) : filteredTravels.length > 0 ? (
+          <motion.div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            {filteredTravels.map(travel => (
-              <motion.div 
-                key={travel.id} 
-                initial={{ opacity: 0, y: 20 }} 
-                animate={{ opacity: 1, y: 0 }} 
-                transition={{ duration: 0.5, delay: 0.2 }} 
+            {filteredTravels.map((travel) => (
+              <motion.div
+                key={travel.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
               >
                 <TravelCard travel={travel} />
               </motion.div>

@@ -39,16 +39,7 @@ const Sobre: React.FC = () => {
       </ParallaxBackground>
 
       {/* Linha do Tempo */}
-      <section className="py-24 bg-white text-gray-800 animate__animated animate__fadeIn">
-        <motion.div
-          className="container mx-auto px-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          <h2 className="text-4xl font-bold text-center mb-16">Nossa Jornada</h2>
-        </motion.div>
-      </section>
+
 
       {/* Sobre a Empresa */}
       <motion.section

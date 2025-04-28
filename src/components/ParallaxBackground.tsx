@@ -15,8 +15,8 @@ const ParallaxBackground: React.FC<ParallaxBackgroundProps> = ({
   children,
   overlayColor = 'bg-black/40',
   height = 'h-screen',
-  parallaxFactor = 0.5,
-  transitionDuration = '1s', // Duração padrão de 1 segundo
+  parallaxFactor = 0.1,
+  transitionDuration = '0.5s', // Duração padrão de 1 segundo
   text,
 }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
