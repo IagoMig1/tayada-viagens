@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FacebookIcon, InstagramIcon, TwitterIcon, PhoneIcon, MailIcon, MapPinIcon } from 'lucide-react';
+import { FacebookIcon, InstagramIcon, PhoneIcon, MailIcon, MapPinIcon } from 'lucide-react';
+
 const Footer = () => {
-  return <footer className="bg-gray-800 text-white pt-10 pb-8">
+  return (
+    <footer className="bg-gray-800 text-white pt-10 pb-8">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
@@ -39,7 +41,7 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <MapPinIcon size={20} className="flex-shrink-0 mt-1" />
                 <p className="text-gray-300">
-                Av. Francisco Alves Moreira, 355 - Vila Santos, Caçapava - SP, 12280-011
+                  Av. Francisco Alves Moreira, 355 - Vila Santos, Caçapava - SP, 12280-011
                 </p>
               </div>
               <div className="flex items-center space-x-3">
@@ -64,10 +66,28 @@ const Footer = () => {
             <a href="https://www.instagram.com/tayada_viagens" className="text-gray-400 hover:text-white transition-colors">
               <InstagramIcon size={20} />
             </a>
-
           </div>
         </div>
+
+        {/* Link para o Login Administrativo */}
+        <div className="mt-4 text-center">
+          <Link to="/login" className="text-gray-500 text-sm hover:text-white transition-colors">
+            Login Administrativo
+          </Link>
+        </div>
+
+        {/* Marca d'água com o link para Lunaris */}
+        <div className="mt-4 text-center text-sm text-gray-500 opacity-50">
+          <span>
+            Desenvolvido por{' '}
+            <a href="https://www.itslunaris.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white">
+              Lunaris
+            </a>
+          </span>
+        </div>
       </div>
-    </footer>;
+    </footer>
+  );
 };
+
 export default Footer;
