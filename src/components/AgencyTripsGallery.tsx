@@ -43,14 +43,14 @@ const AgencyExperienceGallery = () => {
   };
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-12 bg-white">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-gray-800 text-center mb-12">
+        <h2 className="text-3xl font-bold text-gray-800 text-center mb-8 sm:text-4xl">
           Experiências Inesquecíveis
         </h2>
         <div className="relative overflow-hidden">
           {/* Main Image */}
-          <div className="relative w-full h-[800px]">
+          <div className="relative w-full h-[60vh] sm:h-[800px]">
             <div
               className="w-full h-full flex transition-transform duration-700 ease-in-out"
               style={{
@@ -68,11 +68,11 @@ const AgencyExperienceGallery = () => {
               ))}
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-8">
-              <h3 className="text-3xl font-bold text-white mb-2">
+            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-8">
+              <h3 className="text-xl sm:text-3xl font-bold text-white mb-2">
                 {agencyExperiences[activeIndex].title}
               </h3>
-              <p className="text-xl text-white/90">
+              <p className="text-base sm:text-xl text-white/90">
                 {agencyExperiences[activeIndex].location}
               </p>
             </div>
@@ -117,7 +117,7 @@ const AgencyExperienceGallery = () => {
                 <img
                   src={image.url}
                   alt={image.title}
-                  className="w-32 h-20 object-cover rounded-lg"
+                  className="w-20 h-12 sm:w-32 sm:h-20 object-cover rounded-lg"
                 />
                 <div
                   className={`absolute inset-0 bg-black/50 transition-opacity ${
