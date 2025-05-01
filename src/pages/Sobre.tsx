@@ -1,6 +1,7 @@
 import React from 'react';
 import ParallaxBackground from '../components/ParallaxBackground';
 import { motion } from 'framer-motion';
+import WhatsAppButton from '../components/WhatsAppButton';
 
 interface Milestone {
   ano: string;
@@ -182,6 +183,7 @@ const Sobre: React.FC = () => {
           </div>
         </div>
       </motion.section>
+      <WhatsAppButton variant="fixed" />
     </div>
   );
 };

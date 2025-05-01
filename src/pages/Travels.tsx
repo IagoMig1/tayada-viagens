@@ -4,6 +4,7 @@ import { SearchIcon, FilterIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { createClient } from '@supabase/supabase-js';
 import { Travel } from '../data/travelData';
+import WhatsAppButton from '../components/WhatsAppButton';
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL!,
@@ -159,6 +160,7 @@ const Travels = () => {
           </div>
         )}
       </div>
+      <WhatsAppButton variant="fixed" />
     </div>
   );
 };
