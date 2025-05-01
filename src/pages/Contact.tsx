@@ -13,8 +13,8 @@ const Contact = () => {
 
     emailjs
       .sendForm(
-        'YOUR_SERVICE_ID',     
-        'YOUR_TEMPLATE_ID',      
+        'service_ld1azse',     
+        '3T4kw0p6ndOYvtYBv',      
         e.target as HTMLFormElement,
         'YOUR_USER_ID'           
       )
