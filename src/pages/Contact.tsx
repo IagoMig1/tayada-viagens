@@ -14,9 +14,9 @@ const Contact = () => {
     emailjs
       .sendForm(
         'service_ld1azse',     
-        '3T4kw0p6ndOYvtYBv',      
+        'template_rp01wc5',      
         e.target as HTMLFormElement,
-        'YOUR_USER_ID'           
+        '3T4kw0p6ndOYvtYBv'           
       )
       .then(
         (result) => {
