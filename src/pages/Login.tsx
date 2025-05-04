@@ -17,7 +17,7 @@ const Login = () => {
     if (error) {
       alert('Erro ao fazer login: ' + error.message);
     } else {
-      navigate('/add-travel');
+      navigate('/AdminPanel'); // caminho correto para painel administrativo
     }
   };
 

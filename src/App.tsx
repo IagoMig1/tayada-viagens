@@ -8,11 +8,15 @@ import TravelDetail from './pages/TravelDetail';
 import Contact from './pages/Contact';
 import Sobre from './pages/Sobre';
 import AddTravel from './pages/AddTravel';
-import Login from './pages/Login'; // Importando o componente de login
+import Login from './pages/Login';
+import AdminPanel from './pages/AdminPanel';
+import UpdateTravel from './pages/UpdateTravel';
 import { createClient } from '@supabase/supabase-js';
+import ScrollToTop from './ScrollToTop';
+import { Toaster } from 'react-hot-toast'; // ✅ Importação do Toaster
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import ScrollToTop from './ScrollToTop';
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL!,
@@ -21,37 +25,33 @@ const supabase = createClient(
 
 export function App() {
   const [travels, setTravels] = useState<any[]>([]);
-  const [user, setUser] = useState<any>(null);  // Estado para armazenar o usuário
+  const [user, setUser] = useState<any>(null);
 
-  // Verificar se o usuário está autenticado
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { user } } = await supabase.auth.getSession();
       if (user) {
-        setUser(user);  // Se existir uma sessão ativa, armazene o usuário no estado
+        setUser(user);
       }
     };
 
     checkAuth();
 
-    // Ouvir mudanças no estado de autenticação (login, logout)
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         if (session) {
-          setUser(session.user);  // Atualize o estado com a nova sessão
+          setUser(session.user);
         } else {
-          setUser(null);  // Caso o usuário faça logout, remova a sessão
+          setUser(null);
         }
       }
     );
 
-    // Cleanup do listener
     return () => {
       authListener?.unsubscribe();
     };
-  }, []); // Essa função será chamada apenas uma vez, ao carregar a aplicação
+  }, []);
 
-  // Carregar dados das viagens do Supabase
   useEffect(() => {
     const fetchTravels = async () => {
       const { data, error } = await supabase.from('travels').select('*');
@@ -63,11 +63,12 @@ export function App() {
     };
 
     fetchTravels();
-  }, []);  // Esse useEffect roda apenas quando a página é carregada
+  }, []);
 
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <Toaster position="top-right" toastOptions={{ duration: 3000 }} /> {/* ✅ Adicionado Toaster */}
       <div className="flex flex-col min-h-screen bg-gray-50">
         <Header />
         <main className="flex-grow">
@@ -76,15 +77,19 @@ export function App() {
             <Route path="/destinos" element={<Travels />} />
             <Route path="/contato" element={<Contact />} />
             <Route path="/sobre" element={<Sobre />} />
-            <Route path="/login" element={<Login />} /> {/* Adicionando a rota do login */}
-
-            {/* Protegendo a rota de AddTravel */}
+            <Route path="/login" element={<Login />} />
             <Route
               path="/add-travel"
               element={user ? <AddTravel /> : <Navigate to="/login" />}
             />
-
-            {/* Definindo a rota dinâmica para cada viagem */}
+            <Route
+              path="/adminpanel"
+              element={user ? <AdminPanel /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/editar-viagem/:id"
+              element={user ? <UpdateTravel /> : <Navigate to="/login" />}
+            />
             <Route path="/destino/:id" element={<TravelDetail />} />
           </Routes>
         </main>

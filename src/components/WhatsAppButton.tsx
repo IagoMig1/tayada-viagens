@@ -29,7 +29,7 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
   };
 
   const variantStyles = {
-    fixed: 'fixed bottom-6 right-6 w-20 h-20 z-[9999]', // aumentei o tamanho
+    fixed: 'fixed bottom-6 right-6 w-14 h-25 z-[9999]', // aumentei o tamanho
     inline: 'inline-flex items-center gap-2',
   };
 
