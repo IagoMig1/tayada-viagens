@@ -16,17 +16,17 @@ import { getTravelData } from '../lib/supabase';
 
 const heroImages = [
   {
-    url: 'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1728&q=80',
+    url: 'https://www.meon.com.br/source/files/c/175396/Carro_Cacapava-266360_2000-1500-0-0.jpg',
     title: 'Descubra Novos Horizontes',
     subtitle: 'Explore destinos incríveis com a Tayada Viagens'
   },
   {
-    url: 'https://images.unsplash.com/photo-1696450724328-c075ecff6f50?q=80&w=1911&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    url: 'https://blog.paineirascorcovado.com.br/wp-content/uploads/2024/11/Cristo-Redentor-Por-do-sol-scaled.jpg',
     title: 'Experiências Únicas',
     subtitle: 'Momentos inesquecíveis em cada viagem'
   },
   {
-    url: 'https://images.unsplash.com/photo-1723817496695-4afecff18ad0?q=80&w=2038&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    url: 'https://a.storyblok.com/f/239725/4096x2731/9eacb27b6d/hero-paris.jpg/m/3840x2560',
     title: 'Paraísos Naturais',
     subtitle: 'Conheça as maravilhas do Brasil e do mundo'
   }
@@ -174,8 +174,9 @@ const Home = () => {
            
             
             <TravelTips />
+          
             <AgencyTripsGallery />
-           
+            <NewsletterSection />
             <TestimonialsSection />
           </>
         ) : (

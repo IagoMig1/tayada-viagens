@@ -1,29 +1,31 @@
 // pages/AdminPanel.tsx
 import React, { useEffect, useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { FaPlus, FaEdit, FaEye, FaTrash } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaChartPie } from 'react-icons/fa';
 import TravelForm from '@/components/TravelForm';
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL!,
-  import.meta.env.VITE_SUPABASE_ANON_KEY!
-);
 
 const AdminPanel: React.FC = () => {
   const [travels, setTravels] = useState<any[]>([]);
+  const [suggestions, setSuggestions] = useState<any[]>([]);
   const [selectedTravel, setSelectedTravel] = useState<any>(null);
   const [showForm, setShowForm] = useState(false);
+  const [showChart, setShowChart] = useState(true);
 
   const fetchTravels = async () => {
     const { data, error } = await supabase.from('travels').select('*');
     if (!error && data) setTravels(data);
-    else console.error('Erro ao carregar viagens:', error?.message);
+  };
+
+  const fetchSuggestions = async () => {
+    const { data, error } = await supabase.from('viagens_sugeridas').select('*');
+    if (!error && data) setSuggestions(data);
   };
 
   useEffect(() => {
     fetchTravels();
+    fetchSuggestions();
   }, []);
 
   const handleSubmit = async (travelData: any) => {
@@ -38,16 +40,12 @@ const AdminPanel: React.FC = () => {
         setShowForm(false);
         setSelectedTravel(null);
         fetchTravels();
-      } else {
-        console.error('Erro ao atualizar viagem:', error.message);
       }
     } else {
       const { error } = await supabase.from('travels').insert([travelData]);
       if (!error) {
         setShowForm(false);
         fetchTravels();
-      } else {
-        console.error('Erro ao cadastrar viagem:', error.message);
       }
     }
   };
@@ -57,12 +55,22 @@ const AdminPanel: React.FC = () => {
     if (!confirm) return;
 
     const { error } = await supabase.from('travels').delete().eq('id', id);
-    if (!error) {
-      fetchTravels();
-    } else {
-      console.error('Erro ao excluir viagem:', error.message);
-    }
+    if (!error) fetchTravels();
   };
+
+  // Agrupamento por cidade e UF
+  const cityCounts = suggestions.reduce((acc: Record<string, number>, suggestion) => {
+    const key = `${suggestion.city} - ${suggestion.uf}`;
+    acc[key] = (acc[key] || 0) + 1;
+    return acc;
+  }, {});
+
+  const chartData = Object.entries(cityCounts).map(([name, value]) => ({
+    name,
+    value,
+  }));
+
+  const total = chartData.reduce((acc, curr) => acc + curr.value, 0);
 
   return (
     <div className="min-h-screen bg-[#f0f4f2] pt-32 px-4 pb-10">
@@ -86,14 +94,16 @@ const AdminPanel: React.FC = () => {
               </Button>
             </div>
 
-            <Card className="shadow-md rounded-2xl border border-[#d6e2dd]">
+            <Card className="shadow-md rounded-2xl border border-[#d6e2dd] mt-8">
               <CardContent className="p-6">
                 <h2 className="text-2xl font-semibold text-[#00853b] mb-4">Viagens Cadastradas</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {travels.map((travel) => (
                     <Card key={travel.id} className="border shadow-sm rounded-xl">
                       <CardContent className="p-4 space-y-2">
-                        <h3 className="text-lg font-semibold text-[#00853b]">{travel.departure_location}</h3>
+                        <h3 className="text-lg font-semibold text-[#00853b]">
+                          {travel.departure_location}
+                        </h3>
                         <p className="text-sm text-gray-600">
                           Grupo: {travel.group_size} | Vagas: {travel.vagas_restantes}
                         </p>
@@ -108,7 +118,6 @@ const AdminPanel: React.FC = () => {
                             <FaEdit className="mr-1" />
                             Editar
                           </Button>
-                   
                           <Button
                             className="bg-red-500 hover:bg-red-600 text-white text-sm"
                             onClick={() => handleDelete(travel.id)}
@@ -123,13 +132,51 @@ const AdminPanel: React.FC = () => {
                 </div>
               </CardContent>
             </Card>
+
+            <div className="flex justify-center mt-10">
+              <Button
+                onClick={() => setShowChart(!showChart)}
+                className="bg-[#4e1b91] hover:bg-[#3e1477] text-white px-4"
+              >
+                <FaChartPie className="mr-2" />
+                {showChart ? 'Ocultar Gráfico de Sugestões' : 'Mostrar Gráfico de Sugestões'}
+              </Button>
+            </div>
+
+            {/* Gráfico simples usando divs */}
+            {showChart && chartData.length > 0 && (
+              <div className="mt-10 flex flex-col items-center">
+                <h2 className="text-2xl font-semibold text-[#4e1b91] mb-6">
+                  Sugestões por Cidade
+                </h2>
+                <div className="flex flex-wrap justify-center gap-4">
+                  {chartData.map((entry, index) => {
+                    const percentage = ((entry.value / total) * 100).toFixed(1);
+                    return (
+                      <div
+                        key={index}
+                        className="bg-white border border-gray-300 rounded-xl p-4 shadow-sm min-w-[200px]"
+                      >
+                        <h3 className="text-md font-bold text-[#00853b]">{entry.name}</h3>
+                        <p className="text-sm text-gray-600">
+                          {entry.value} sugestões ({percentage}%)
+                        </p>
+                        <div className="w-full bg-gray-200 rounded-full h-4 mt-2">
+                          <div
+                            className="h-4 rounded-full bg-[#4e1b91]"
+                            style={{ width: `${percentage}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </>
         ) : (
           <div className="bg-white p-6 rounded-2xl shadow-md border border-[#d6e2dd]">
-            <TravelForm
-              initialValues={selectedTravel}
-              onSubmit={handleSubmit}
-            />
+            <TravelForm initialValues={selectedTravel} onSubmit={handleSubmit} />
             <div className="flex justify-center mt-6">
               <Button
                 onClick={() => {

@@ -17,4 +17,18 @@
   .surge {
     animation: fadeIn 1s ease-out;
   }
+  @keyframes fadeInSubtle {
+    from {
+      opacity: 0.9;
+      transform: scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .animate-fadeInSubtle {
+    animation: fadeInSubtle 1.2s ease-out forwards;
+  }
   

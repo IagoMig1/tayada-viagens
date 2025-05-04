@@ -25,6 +25,7 @@
     "react-intersection-observer": "^9.16.0",
     "react-router-dom": "^6.26.2",
     "react-slick": "^0.30.3",
+    "recharts": "^2.15.3",
     "slick-carousel": "^1.8.1",
     "sonner": "^2.0.3",
     "vercel": "^41.6.2"

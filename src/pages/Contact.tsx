@@ -223,6 +223,7 @@ const InfoItem = ({
       <h3 className="font-semibold text-gray-800">{title}</h3>
       <p className="text-gray-600">{content}</p>
     </div>
+
   </div>
 );
 
