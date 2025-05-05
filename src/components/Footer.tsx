@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4">Tayada Viagens</h3>
+            <h3 className="text-xl font-bold mb-4">Tayada Viagens & Turismo</h3>
             <p className="text-gray-300">
               Sua agência de turismo para descobrir as maravilhas do Brasil e do
               mundo. Oferecemos os melhores pacotes de viagem com preços
@@ -57,7 +57,7 @@ const Footer = () => {
         </div>
         <div className="mt-8 pt-6 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            &copy; {new Date().getFullYear()} Tayada Viagens - Todos os direitos reservados.
+            &copy; {new Date().getFullYear()} Tayada Viagens & Turismo - Todos os direitos reservados.
           </p>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <a href="https://www.facebook.com/tayadaviagens" className="text-gray-400 hover:text-white transition-colors">

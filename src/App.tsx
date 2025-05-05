@@ -4,6 +4,8 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Travels from './pages/Travels';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import TravelDetail from './pages/TravelDetail';
 import Contact from './pages/Contact';
 import Sobre from './pages/Sobre';
@@ -12,7 +14,10 @@ import PrivateTravel from './components/PrivateTravel';
 import Login from './pages/Login';
 import AdminPanel from './pages/AdminPanel';
 import UpdateTravel from './pages/UpdateTravel';
+import Blog from './pages/Blog'; // ✅ Importação da página pública do blog
+import PostsPage from './pages/posts'; // ✅ Importação da nova página
 import { createClient } from '@supabase/supabase-js';
+import PostDetail from './components/PostDetail';
 import ScrollToTop from './ScrollToTop';
 import { Toaster } from 'react-hot-toast'; // ✅ Importação do Toaster
 
@@ -69,31 +74,37 @@ export function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <Toaster position="top-right" toastOptions={{ duration: 3000 }} /> {/* ✅ Adicionado Toaster */}
+      <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
       <div className="flex flex-col min-h-screen bg-gray-50">
         <Header />
         <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/destinos" element={<Travels />} />
-            <Route path="/contato" element={<Contact />} />
-            <Route path="/sobre" element={<Sobre />} />
-            <Route path="/login" element={<Login />} />
-            <Route
-              path="/add-travel"
-              element={user ? <AddTravel /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/adminpanel"
-              element={user ? <AdminPanel /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/editar-viagem/:id"
-              element={user ? <UpdateTravel /> : <Navigate to="/login" />}
-            />
-            <Route path="/destino/:id" element={<TravelDetail />} />
-          </Routes>
-          
+        <Routes>
+  <Route path="/" element={<Home />} />
+  <Route path="/destinos" element={<Travels />} />
+  <Route path="/contato" element={<Contact />} />
+  <Route path="/sobre" element={<Sobre />} />
+  <Route path="/login" element={<Login />} />
+  <Route
+    path="/add-travel"
+    element={user ? <AddTravel /> : <Navigate to="/login" />}
+  />
+  <Route
+    path="/adminpanel"
+    element={user ? <AdminPanel /> : <Navigate to="/login" />}
+  />
+  <Route
+    path="/editar-viagem/:id"
+    element={user ? <UpdateTravel /> : <Navigate to="/login" />}
+  />
+  <Route path="/destino/:id" element={<TravelDetail />} />
+  <Route
+    path="/posts"
+    element={user ? <PostsPage /> : <Navigate to="/login" />}
+  />
+  <Route path="/blog" element={<Blog />} />
+  <Route path="/blog/:id" element={<PostDetail />} /> {/* ✅ Esta é a linha que faltava */}
+</Routes>
+
         </main>
         <Footer />
       </div>

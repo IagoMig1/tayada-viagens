@@ -5,14 +5,16 @@ import { motion } from 'framer-motion';
 
 import FeaturedDestinations from '../components/FeaturedDestinations';
 import TestimonialsSection from '../components/TestimonialsSection';
+import LatestBlogPosts from '../components/LatestBlogPosts';
 import NewsletterSection from '../components/NewsletterSection';
 import ParallaxBackground from '../components/ParallaxBackground';
 import TravelTips from '../components/TravelTips';
 import AgencyTripsGallery from '../components/AgencyTripsGallery';
 import WhatsAppButton from '../components/WhatsAppButton';
-import { getTravelData } from '../lib/supabase';
 import PrivateTravel from "../components/PrivateTravel";
+import PostCard from '../components/PostCard';
 
+import { getTravelData, getPosts } from '../lib/supabase';
 
 const heroImages = [
   {
@@ -36,6 +38,7 @@ const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [travelData, setTravelData] = useState<any[]>([]);
+  const [posts, setPosts] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchTravelData = async () => {
@@ -48,7 +51,17 @@ const Home = () => {
       }
     };
 
+    const fetchPosts = async () => {
+      try {
+        const data = await getPosts();
+        setPosts(data.slice(0, 3)); // Pega os 3 mais recentes
+      } catch (error) {
+        console.error('Erro ao carregar os posts:', error);
+      }
+    };
+
     fetchTravelData();
+    fetchPosts();
   }, []);
 
   const featuredDestinations = travelData.slice(0, 6);
@@ -149,13 +162,15 @@ const Home = () => {
             </div>
           </motion.div>
         </ParallaxBackground>
-        
+
         {/* Conteúdo principal */}
         {isDataLoaded ? (
           <>
             <FeaturedDestinations destinations={featuredDestinations} />
             <PrivateTravel />
+             
             <TravelTips />
+            <LatestBlogPosts />
             <AgencyTripsGallery />
             
             <NewsletterSection />
@@ -166,6 +181,7 @@ const Home = () => {
             <p className="text-xl text-teal-600">Carregando dados...</p>
           </div>
         )}
+
 
         {/* Call to Action */}
         <section className="py-20 bg-gradient-to-r from-teal-600 to-teal-800 text-white">

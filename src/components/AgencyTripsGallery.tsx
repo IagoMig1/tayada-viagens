@@ -20,12 +20,12 @@ const agencyExperiences: GalleryImage[] = [
   },
   {
     url: './1.png',
-    title: 'Itália',
+    title: 'Rumo a Fernando de Noronha!',
     location: '',
   },
   {
     url: './3.png',
-    title: 'Partindo para Fernando de Noronha',
+    title: 'Partindo para Itália!',
     location: '',
   },
 ];

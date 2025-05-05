@@ -85,38 +85,56 @@ const Sobre: React.FC = () => {
         </div>
       </motion.section>
 
-      {/* Parcerias */}
-      <motion.section
-        className="py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative animate__animated animate__fadeIn"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-4xl font-extrabold mb-4 relative inline-block">
-            Nossas Parcerias
-            <span className="block w-24 h-1 bg-teal-400 mt-2 mx-auto rounded-full animate-pulse"></span>
-          </h2>
-          <p className="text-gray-400 mb-16 max-w-xl mx-auto">
-            Parceiros que confiam em nosso trabalho e tornam cada jornada ainda mais especial.
-          </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-12 items-center justify-center">
-            {[ './cvc.png', './cvc.png', './cvc.png' ].map((logo, i) => (
-              <div
-                key={i}
-                className="bg-gray-800 hover:bg-gray-700 rounded-xl p-6 shadow-lg transition-all duration-300 transform hover:-translate-y-2"
-              >
-                <img
-                  src={logo}
-                  alt={`Parceria ${i}`}
-                  className="h-50 w-20 mx-auto object-contain filter"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </motion.section>
+
+{/* Parcerias */}
+<motion.section
+  className="py-16 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden animate__animated animate__fadeIn"
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 1 }}
+>
+  <div className="relative z-10 container mx-auto px-4 text-center">
+    <h2 className="text-3xl md:text-4xl font-bold mb-4">
+      Nossas Parcerias
+    </h2>
+    <p className="text-gray-400 mb-12 max-w-2xl mx-auto text-sm md:text-base">
+      Empresas que confiam em nosso trabalho e tornam cada jornada ainda mais especial.
+    </p>
+
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 items-center justify-center">
+      {[
+        { name: 'abreu', link: 'https://www.abreutur.com.br/' },
+        { name: 'gta', link: 'https://www.segurogta.com.br/2020/home/' },
+        { name: 'cvc', link: 'https://www.segurogta.com.br/2020/home/' },
+        { name: 'msc', link: 'https://www.msccruzeiros.com.br/' },
+        { name: 'flot', link: 'https://www.flot.com.br/FLOTViagens' },
+        { name: 'azul', link: 'https://www.voeazul.com.br/br/pt/home' },
+        { name: 'patria', link: 'https://patria.tur.br/' },
+        { name: 'cativa', link: 'https://www.cativaoperadora.com.br/' },
+        { name: 'orinter', link: 'https://www.orinter.com.br/' },
+        { name: 'costa', link: 'https://www.costacruzeiros.com/' },
+      ].map(({ name, link }, i) => (
+        <a
+          key={i}
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-white/5 hover:bg-white/10 rounded-xl p-4 transition-all duration-300 border border-white/10 backdrop-blur-md shadow-md hover:shadow-lg transform hover:-translate-y-1 hover:scale-105"
+        >
+          <img
+            src={`./${name}.png`}
+            alt={`Parceria ${name}`}
+            className="h-16 w-auto mx-auto object-contain"
+          />
+        </a>
+      ))}
+    </div>
+  </div>
+</motion.section>
+
+
+
 
       {/* Equipe */}
       <motion.section

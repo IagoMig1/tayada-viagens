@@ -18,3 +18,17 @@ export const getTravelData = async () => {
     return [];  // Retorna um array vazio em caso de erro
   }
 };
+export const getPosts = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('posts') // sua tabela de blog
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error('Erro ao buscar posts:', error);
+    return [];
+  }
+};
