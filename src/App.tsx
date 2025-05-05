@@ -14,7 +14,8 @@ import PrivateTravel from './components/PrivateTravel';
 import Login from './pages/Login';
 import AdminPanel from './pages/AdminPanel';
 import UpdateTravel from './pages/UpdateTravel';
-import Blog from './pages/Blog'; // ✅ Importação da página pública do blog
+import Blog from "./pages/blog";
+ // ✅ Importação da página pública do blog
 import PostsPage from './pages/posts'; // ✅ Importação da nova página
 import { createClient } from '@supabase/supabase-js';
 import PostDetail from './components/PostDetail';
