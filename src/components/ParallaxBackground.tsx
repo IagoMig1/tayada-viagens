@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaInstagram, FaFacebookF } from 'react-icons/fa';
 
 interface ParallaxBackgroundProps {
   imageUrl: string;
@@ -25,15 +26,20 @@ const ParallaxBackground: React.FC<ParallaxBackgroundProps> = ({
           backgroundImage: `url(${imageUrl})`,
           transitionDuration: transitionDuration,
         }}
+        
       />
       <div className={`absolute inset-0 ${overlayColor}`} />
-      <div className="relative h-full flex justify-center items-center text-center px-4">
-        <div
-          className="text-white text-4xl font-bold transform transition-all duration-1000 ease-out opacity-0 scale-98 animate-fadeInSubtle"
-        >
+
+      <div className="relative h-full flex flex-col justify-center items-center px-4 gap-6">
+        <div className="text-white text-4xl font-bold transform transition-all duration-1000 ease-out opacity-0 scale-98 animate-fadeInSubtle">
           {text}
+          
         </div>
+
         {children}
+
+    
+       
       </div>
     </div>
   );

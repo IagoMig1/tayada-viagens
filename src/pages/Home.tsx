@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MapPinIcon, CalendarIcon, CreditCardIcon, ChevronRightIcon, ChevronLeftIcon } from 'lucide-react';
+import { ChevronRightIcon, ChevronLeftIcon } from 'lucide-react';
 import FeaturedDestinations from '../components/FeaturedDestinations';
 import TestimonialsSection from '../components/TestimonialsSection';
+import { FacebookIcon, InstagramIcon } from 'lucide-react';
+
 import NewsletterSection from '../components/NewsletterSection';
-import ImageGallery from '../components/ImageGallery';
 import ParallaxBackground from '../components/ParallaxBackground';
-import TravelGallery from '../components/TravelGallery';
-import SpecialOffers from '../components/SpecialOffers';
 import TravelTips from '../components/TravelTips';
 import AgencyTripsGallery from '../components/AgencyTripsGallery';
 import WhatsAppButton from '../components/WhatsAppButton';
 import { motion } from 'framer-motion';
-import { getTravelData } from '../lib/supabase'; 
+import { getTravelData } from '../lib/supabase';
 
 const heroImages = [
   {
@@ -32,34 +31,15 @@ const heroImages = [
   }
 ];
 
-const galleryImages = [
-  {
-    url: 'https://images.unsplash.com/photo-1564750576234-75de3cc54053?q=80&w=2069&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    caption: 'Amazônia Brasileira'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325',
-    caption: 'Rio de Janeiro'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1729382215929-75812f7a113f?q=80&w=1886&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    caption: 'Fernando de Noronha'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1667049663930-f6d42755f76b?q=80&w=1935&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    caption: 'Gramado'
-  }
-];
-
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const [travelData, setTravelData] = useState<any[]>([]); // Estado para armazenar as viagens do Supabase
+  const [travelData, setTravelData] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchTravelData = async () => {
       try {
-        const data = await getTravelData(); // Função que busca os dados do Supabase
+        const data = await getTravelData();
         setTravelData(data);
         setIsDataLoaded(true);
       } catch (error) {
@@ -89,6 +69,7 @@ const Home = () => {
 
   return (
     <>
+      {/* SEO Meta Tags */}
       <head>
         <meta name="description" content="Explore destinos incríveis com a Tayada Viagens. Planeje sua viagem dos sonhos agora!" />
         <meta name="keywords" content="viagem, destinos, turismo, aventuras, Tayada Viagens" />
@@ -98,6 +79,7 @@ const Home = () => {
       </head>
 
       <div className="w-full">
+        {/* Hero com Parallax */}
         <ParallaxBackground imageUrl={heroImages[currentSlide].url} overlayColor="bg-black/50">
           <div className="container mx-auto px-4 h-full flex items-center">
             <motion.div
@@ -106,24 +88,40 @@ const Home = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1 }}
             >
-              <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fadeInUp">
+              <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
                 {heroImages[currentSlide].title}
               </h1>
-              <p className="text-xl md:text-2xl text-white/90 mb-8 animate-fadeInUp animation-delay-200">
+              <p className="text-xl md:text-2xl text-white/90 mb-8">
                 {heroImages[currentSlide].subtitle}
-              </p> 
-              <div className="flex flex-wrap gap-4 animate-fadeInUp animation-delay-400">
-                <Link to="/destinos" className="px-8 py-4 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg" aria-label="Explorar destinos">
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Link
+                  to="/destinos"
+                  className="px-8 py-4 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+                >
                   Explorar Destinos
                 </Link>
-                <Link to="/contato" className="px-8 py-4 bg-white/20 hover:bg-white/30 text-white font-bold rounded-lg transition-all duration-300 backdrop-blur-sm transform hover:scale-105" aria-label="Fale conosco">
+                <Link
+                  to="/contato"
+                  className="px-8 py-4 bg-white/20 hover:bg-white/30 text-white font-bold rounded-lg backdrop-blur-sm transition-all duration-300 transform hover:scale-105"
+                >
                   Fale Conosco
                 </Link>
               </div>
+              <div className="flex gap-4 mt-10">
+  <a href="https://www.facebook.com/profile.php?id=100064805885974&locale=pt_BR" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+    <FacebookIcon className="text-white hover:text-teal-300 transition-colors" size={24} />
+  </a>
+  <a href="https://www.instagram.com/tayada_viagens/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+    <InstagramIcon className="text-white hover:text-teal-300 transition-colors" size={24} />
+  </a>
+</div>
+
+
             </motion.div>
           </div>
 
-          {/* Transition between slides */}
+          {/* Controles de Slide */}
           <motion.div
             className="absolute bottom-8 left-0 right-0"
             initial={{ opacity: 0 }}
@@ -135,11 +133,10 @@ const Home = () => {
                 <motion.button
                   onClick={prevSlide}
                   className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors backdrop-blur-sm group"
-                  aria-label="Slide anterior"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                 >
-                  <ChevronLeftIcon size={24} className="text-white transform group-hover:-translate-x-1 transition-transform" />
+                  <ChevronLeftIcon size={24} className="text-white group-hover:-translate-x-1 transition-transform" />
                 </motion.button>
                 <div className="flex space-x-2">
                   {heroImages.map((_, index) => (
@@ -147,7 +144,6 @@ const Home = () => {
                       key={index}
                       onClick={() => setCurrentSlide(index)}
                       className={`transition-all duration-300 ${index === currentSlide ? 'w-8 bg-teal-500' : 'w-2 bg-white/50 hover:bg-white/75'} h-2 rounded-full`}
-                      aria-label={`Ir para o slide ${index + 1}`}
                       whileHover={{ scale: 1.2 }}
                       whileTap={{ scale: 0.9 }}
                     />
@@ -156,25 +152,21 @@ const Home = () => {
                 <motion.button
                   onClick={nextSlide}
                   className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors backdrop-blur-sm group"
-                  aria-label="Próximo slide"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                 >
-                  <ChevronRightIcon size={24} className="text-white transform group-hover:translate-x-1 transition-transform" />
+                  <ChevronRightIcon size={24} className="text-white group-hover:translate-x-1 transition-transform" />
                 </motion.button>
               </div>
             </div>
           </motion.div>
         </ParallaxBackground>
 
-        {/* Sections */}
+        {/* Conteúdo principal */}
         {isDataLoaded ? (
           <>
             <FeaturedDestinations destinations={featuredDestinations} />
-           
-            
             <TravelTips />
-          
             <AgencyTripsGallery />
             <NewsletterSection />
             <TestimonialsSection />
@@ -185,17 +177,23 @@ const Home = () => {
           </div>
         )}
 
+        {/* Call to Action Final */}
         <section className="py-20 bg-gradient-to-r from-teal-600 to-teal-800 text-white">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-4xl font-bold mb-6">Pronto para Sua Próxima Aventura?</h2>
             <p className="text-xl mb-8 max-w-2xl mx-auto text-teal-100">
               Entre em contato conosco e comece a planejar a viagem dos seus sonhos com a Tayada Viagens.
             </p>
-            <Link to="/contato" className="inline-block bg-white text-teal-600 font-bold py-4 px-8 rounded-lg hover:bg-teal-50 transition-colors" aria-label="Fale conosco">
+            <Link
+              to="/contato"
+              className="inline-block bg-white text-teal-600 font-bold py-4 px-8 rounded-lg hover:bg-teal-50 transition-colors"
+            >
               Fale Conosco
             </Link>
           </div>
         </section>
+
+        {/* Botão flutuante do WhatsApp */}
         <WhatsAppButton variant="fixed" />
       </div>
     </>
