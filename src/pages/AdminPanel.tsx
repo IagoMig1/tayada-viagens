@@ -89,7 +89,7 @@ const AdminPanel: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] pt-28 px-6 pb-20 mt-10">
+    <div className="min-h-screen bg-[#f8f9fa] pt-28 px-4 sm:px-6 pb-20 mt-10">
       <div className="max-w-5xl mx-auto space-y-16">
 
         {/* Cabeçalho */}
@@ -115,7 +115,7 @@ const AdminPanel: React.FC = () => {
 
         {/* Formulário */}
         {showForm ? (
-          <div className="bg-white p-8 rounded-2xl shadow border">
+          <div className="bg-white p-6 sm:p-8 rounded-2xl shadow border">
             <TravelForm initialValues={selectedTravel} onSubmit={handleSubmit} />
             <div className="flex justify-center mt-6">
               <Button
@@ -142,7 +142,7 @@ const AdminPanel: React.FC = () => {
                       <p className="text-sm text-gray-500">
                         Grupo: {travel.group_size} | Vagas: {travel.vagas_restantes}
                       </p>
-                      <div className="flex gap-2 mt-3">
+                      <div className="flex flex-wrap gap-2 mt-3">
                         <Button
                           className="bg-[#4e1b91] hover:bg-[#3d147b] text-white px-4 py-2 text-sm rounded-md"
                           onClick={() => {
@@ -167,15 +167,15 @@ const AdminPanel: React.FC = () => {
 
             {/* Gráfico */}
             {chartData.length > 0 && (
-              <div className="mt-16 bg-white p-8 rounded-2xl border shadow-sm">
-                <div className="flex items-center justify-between mb-4">
+              <div className="mt-16 bg-white p-6 sm:p-8 rounded-2xl border shadow-sm">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
                   <h2 className="text-lg font-medium text-gray-800">Sugestões por Cidade</h2>
                   <Button onClick={handleExportCSV} className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-1.5 rounded-md">
                     Exportar CSV
                   </Button>
                 </div>
-                <div className="h-[350px]">
-                  <ResponsiveContainer>
+                <div className="w-full h-[300px] sm:h-[350px]">
+                  <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
                         data={chartData}
@@ -183,7 +183,7 @@ const AdminPanel: React.FC = () => {
                         nameKey="name"
                         cx="50%"
                         cy="50%"
-                        outerRadius={120}
+                        outerRadius="80%"
                         label
                       >
                         {chartData.map((_, index) => (

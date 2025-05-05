@@ -21,25 +21,25 @@ const ParallaxBackground: React.FC<ParallaxBackgroundProps> = ({
   return (
     <div className={`relative ${height} overflow-hidden`}>
       <div
-        className="absolute inset-0 w-full h-full bg-fixed bg-center bg-cover transition-all"
+        className="absolute inset-0 w-full h-full bg-center bg-no-repeat sm:bg-fixed"
         style={{
           backgroundImage: `url(${imageUrl})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
           transitionDuration: transitionDuration,
         }}
-        
       />
+
+      {/* Overlay escuro */}
       <div className={`absolute inset-0 ${overlayColor}`} />
 
-      <div className="relative h-full flex flex-col justify-center items-center px-4 gap-6">
-        <div className="text-white text-4xl font-bold transform transition-all duration-1000 ease-out opacity-0 scale-98 animate-fadeInSubtle">
+      {/* Conteúdo */}
+      <div className="relative h-full flex flex-col justify-center items-center px-4 gap-6 text-center">
+        <div className="text-white text-2xl sm:text-4xl font-bold transform transition-all duration-1000 ease-out opacity-0 scale-98 animate-fadeInSubtle">
           {text}
-          
         </div>
 
         {children}
-
-    
-       
       </div>
     </div>
   );
