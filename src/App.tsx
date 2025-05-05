@@ -98,10 +98,8 @@ export function App() {
     element={user ? <UpdateTravel /> : <Navigate to="/login" />}
   />
   <Route path="/destino/:id" element={<TravelDetail />} />
-  <Route
-    path="/posts"
-    element={user ? <PostsPage /> : <Navigate to="/login" />}
-  />
+  <Route path="/posts" element={<PostsPage />} />
+
   <Route path="/blog" element={<Blog />} />
   <Route path="/blog/:id" element={<PostDetail />} /> {/* ✅ Esta é a linha que faltava */}
 </Routes>

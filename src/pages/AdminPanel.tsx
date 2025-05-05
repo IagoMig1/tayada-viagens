@@ -164,12 +164,20 @@ const AdminPanel: React.FC = () => {
                 ))}
               </div>
             </div>
-
-            {/* Gráfico */}
+            <div className="mt-4 flex justify-center">
+  <a
+    href="/posts"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="inline-block bg-[#4e1b91] hover:bg-[#3d147b] text-white px-5 py-2 rounded-lg text-sm transition"
+  >
+    Gerenciar Posts do Blog
+  </a>
+</div>    {/* Gráfico */}
             {chartData.length > 0 && (
               <div className="mt-16 bg-white p-6 sm:p-8 rounded-2xl border shadow-sm">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
-                  <h2 className="text-lg font-medium text-gray-800">Sugestões por Cidade</h2>
+                  <h2 className="text-lg font-medium text-gray-800">Sugestões de viagens</h2>
                   <Button onClick={handleExportCSV} className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-1.5 rounded-md">
                     Exportar CSV
                   </Button>
@@ -200,7 +208,10 @@ const AdminPanel: React.FC = () => {
           </>
         )}
       </div>
+
+
     </div>
+    
   );
 };
 
