@@ -8,6 +8,7 @@ import TravelDetail from './pages/TravelDetail';
 import Contact from './pages/Contact';
 import Sobre from './pages/Sobre';
 import AddTravel from './pages/AddTravel';
+import PrivateTravel from './components/PrivateTravel';
 import Login from './pages/Login';
 import AdminPanel from './pages/AdminPanel';
 import UpdateTravel from './pages/UpdateTravel';
@@ -92,6 +93,7 @@ export function App() {
             />
             <Route path="/destino/:id" element={<TravelDetail />} />
           </Routes>
+          
         </main>
         <Footer />
       </div>

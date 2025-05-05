@@ -138,7 +138,7 @@ const AdminPanel: React.FC = () => {
                 {travels.map((travel) => (
                   <Card key={travel.id} className="bg-white rounded-2xl border shadow-sm hover:shadow-md transition">
                     <CardContent className="p-6 space-y-2">
-                      <h3 className="text-lg font-medium text-gray-900">{travel.departure_location}</h3>
+                      <h3 className="text-lg font-medium text-gray-900">{travel.location}</h3>
                       <p className="text-sm text-gray-500">
                         Grupo: {travel.group_size} | Vagas: {travel.vagas_restantes}
                       </p>

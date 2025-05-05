@@ -5,6 +5,8 @@ import { Calendar } from '@/components/ui/calendar';
 import { format } from 'date-fns';
 import { v4 as uuidv4 } from 'uuid';
 import { createClient } from '@supabase/supabase-js';
+import { FaUtensils } from 'react-icons/fa';
+
 import {
   FaPlane, FaBus, FaShuttleVan, FaTshirt, FaExchangeAlt,
   FaShoppingCart, FaGift, FaMoneyBillWave, FaHotel, FaCalendarAlt, FaUserTie
@@ -36,8 +38,10 @@ const commonOptions = [
   { label: 'Lembranças', value: 'souvenirs', icon: <FaGift /> },
   { label: 'Gastos pessoais', value: 'personal_expenses', icon: <FaMoneyBillWave /> },
   { label: 'Hospedagem', value: 'hotel', icon: <FaHotel /> },
-  { label: 'Guia de Turismo', value: 'guide', icon: <FaUserTie /> }
+  { label: 'Guia de Turismo', value: 'guide', icon: <FaUserTie /> },
+  { label: 'Alimentação', value: 'food', icon: <FaUtensils /> } // ← esta linha é a nova
 ];
+
 
 const Notification = ({ message, type, onClose }) => {
   useEffect(() => {

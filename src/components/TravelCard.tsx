@@ -14,7 +14,8 @@ const TravelCard: React.FC<TravelCardProps> = ({ travel }) => {
   };
 
   // Formatação da data para o formato pt-BR
-  const formattedDate = new Date(travel.date).toLocaleDateString('pt-BR');
+  const formattedDate = new Date(new Date(travel.date).setDate(new Date(travel.date).getDate() + 1)).toLocaleDateString('pt-BR');
+
 
   return (
     <div className="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">

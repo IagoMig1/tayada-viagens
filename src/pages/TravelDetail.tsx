@@ -13,7 +13,8 @@ import {
   WalletIcon,
   HotelIcon,
   UserRoundIcon,
-  HelpCircleIcon
+  HelpCircleIcon,
+  UtensilsIcon // <- Import corrigido
 } from 'lucide-react';
 
 const supabase = createClient(
@@ -34,6 +35,7 @@ const travelItems: Record<string, { label: string; icon: JSX.Element }> = {
   personal_expenses: { label: 'Gastos Pessoais', icon: <WalletIcon size={18} className="mr-2" /> },
   hotel: { label: 'Hospedagem', icon: <HotelIcon size={18} className="mr-2" /> },
   guide: { label: 'Guia de Turismo', icon: <UserRoundIcon size={18} className="mr-2" /> },
+  food: { label: 'Alimentação', icon: <UtensilsIcon size={18} className="mr-2" /> }, // <- Corrigido aqui
 };
 
 const TravelDetail = () => {
@@ -69,7 +71,8 @@ const TravelDetail = () => {
     return <div className="text-center py-20 text-red-600">Viagem não encontrada.</div>;
   }
 
-  const formattedDate = new Date(travel.date).toLocaleDateString('pt-BR');
+  const formattedDate = new Date(new Date(travel.date).setDate(new Date(travel.date).getDate() + 1)).toLocaleDateString('pt-BR');
+
   const whatsappMessage = `Olá! Gostaria de saber mais detalhes sobre a viagem "${travel.title}" que está marcada para ${formattedDate}.`;
 
   return (
@@ -98,7 +101,7 @@ const TravelDetail = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-6">
             <div className="text-lg font-semibold text-gray-800">
-              <h3>Preço</h3>
+              <h3>A partir de</h3>
               <p className="text-teal-500 text-2xl font-bold">
                 R$ {travel.price.toLocaleString('pt-BR')}
               </p>
@@ -111,7 +114,7 @@ const TravelDetail = () => {
 
             <div className="text-lg font-semibold text-gray-800">
               <h3>Duração</h3>
-              <p>{travel.duration} Dias</p>
+              <p>{travel.duration}</p>
             </div>
           </div>
 

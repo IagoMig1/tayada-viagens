@@ -11,6 +11,8 @@ import TravelTips from '../components/TravelTips';
 import AgencyTripsGallery from '../components/AgencyTripsGallery';
 import WhatsAppButton from '../components/WhatsAppButton';
 import { getTravelData } from '../lib/supabase';
+import PrivateTravel from "../components/PrivateTravel";
+
 
 const heroImages = [
   {
@@ -147,13 +149,15 @@ const Home = () => {
             </div>
           </motion.div>
         </ParallaxBackground>
-
+        
         {/* Conteúdo principal */}
         {isDataLoaded ? (
           <>
             <FeaturedDestinations destinations={featuredDestinations} />
+            <PrivateTravel />
             <TravelTips />
             <AgencyTripsGallery />
+            
             <NewsletterSection />
             <TestimonialsSection />
           </>
