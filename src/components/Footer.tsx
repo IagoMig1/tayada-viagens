@@ -70,11 +70,7 @@ const Footer = () => {
         </div>
 
         {/* Link para o Login Administrativo */}
-        <div className="mt-4 text-center">
-          <Link to="/AdminPanel" className="text-gray-500 text-sm hover:text-white transition-colors">
-            Login Administrativo
-          </Link>
-        </div>
+
 
         {/* Marca d'água com o link para Lunaris */}
         <div className="mt-4 text-center text-sm text-gray-500 opacity-50">
