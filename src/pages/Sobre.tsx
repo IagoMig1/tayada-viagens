@@ -89,7 +89,7 @@ const Sobre: React.FC = () => {
 
 {/* Parcerias */}
 <motion.section
-  className="py-16 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden animate__animated animate__fadeIn"
+  className="py-16 bg-gradient-to-br from-gray-800 via-gray-700 to-gray-800 text-white relative overflow-hidden animate__animated animate__fadeIn"
   initial={{ opacity: 0 }}
   animate={{ opacity: 1 }}
   transition={{ duration: 1 }}
@@ -132,6 +132,7 @@ const Sobre: React.FC = () => {
     </div>
   </div>
 </motion.section>
+
 
 
 
